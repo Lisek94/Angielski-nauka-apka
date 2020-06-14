@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Angielski nauka</string>
+    <string name="icon_UK">iconUK</string>
+    <string name="random_chapter">Wylosuj rozdział do powtórki</string>
+    <string name="add_chapter">Dodaj rozdział do powtórki</string>
+    <string name="show_complete_chapters">Pokaż powtórzone rozdziały</string>
+    <string name="show_not_complete_chapters">Pokaż rozdziały do powtórzenia</string>
+    <string name="chapters_complete">Ukończone rodziały</string>
 </resources>
