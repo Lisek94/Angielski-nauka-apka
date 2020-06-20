@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteOpenHelper
 import android.provider.BaseColumns
 
 object TableInfo: BaseColumns{
-    const val TABLE_NAME = "chapters"
+    const val TABLE_NAME = "Chapters"
     const val TABLE_COLUMN_TITLE = "title"
     const val TABLE_IS_LEARNED = "isLearned"
 }

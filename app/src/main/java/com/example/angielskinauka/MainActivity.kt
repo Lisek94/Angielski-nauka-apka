@@ -1,5 +1,8 @@
 package com.example.angielskinauka
 
+import android.content.ContentValues
+import android.content.Context
+import android.database.sqlite.SQLiteDatabase
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.InputType
@@ -20,14 +23,19 @@ class MainActivity : AppCompatActivity() {
         addChapterButton.setOnClickListener {
             val builder = AlertDialog.Builder(this)
             val editText = EditText(this)
+            val isLearned = "false"
             editText.inputType = InputType.TYPE_CLASS_NUMBER
 
             builder.setView(editText)
             builder.setMessage("Wpisz numer rozdziału")
                 .setPositiveButton("Zapisz") { _, _ ->
                     if(editText.length() < 1){
-                        editText.hint = "Wpisz rozdział"
+                        Toast.makeText(applicationContext,"Brak rozdziału do zapisania",Toast.LENGTH_LONG).show()
                     } else {
+                        val value = ContentValues()
+                        value.put("title",editText.text.toString())
+                        value.put("isLearned",isLearned)
+                        db.insertOrThrow(TableInfo.TABLE_NAME,null,value)
                         Toast.makeText(applicationContext,"Rozdział zapisany",Toast.LENGTH_SHORT).show()
                     }
 
@@ -39,3 +47,13 @@ class MainActivity : AppCompatActivity() {
         }
     }
 }
+
+fun firstStart(db: SQLiteDatabase, context: Context){
+    val cursor = db.query(TableInfo.TABLE_NAME,null,null,null,null,null,null)
+    if (cursor.count == 0){
+        val alertDialog = AlertDialog.Builder(context)
+        alertDialog.setTitle("Dodawanie rozdziałów")
+
+    }
+}
+
