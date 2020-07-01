@@ -30,6 +30,4 @@ class DataBaseHelper(context: Context): SQLiteOpenHelper(context,TableInfo.TABLE
         db?.execSQL(BasicComands.SQL_DELETE_TABLE)
         onCreate(db)
     }
-
-
 }
