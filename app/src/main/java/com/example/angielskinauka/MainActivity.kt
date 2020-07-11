@@ -1,5 +1,6 @@
 package com.example.angielskinauka
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.InputType
@@ -9,13 +10,13 @@ import androidx.appcompat.app.AlertDialog
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
-    private var chapterManager = ChapterManager(this)
-    private var inputManager = InputManager()
+    private val inputManager = InputManager()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        firstStart()
+        val chapterManager = ChapterManager(this)
+        firstStart(chapterManager)
 
         addChapterButton.setOnClickListener {
             val builder = AlertDialog.Builder(this)
@@ -25,7 +26,11 @@ class MainActivity : AppCompatActivity() {
             builder.setView(editText)
             builder.setMessage("Wpisz numer rozdziału")
                 .setPositiveButton("Zapisz") { _, _ ->
-                    showToastForSaveChapter(chapterManager.addOneChapter(editText.toString()))
+                    if (inputManager.checkEditTextForNull(editText)){
+                        showToastForSaveChapter(chapterManager.addOneChapter(editText.text.toString()))
+                    } else {
+                        showToastForSaveChapter(ChapterManagerStatus.StatusNotDataToSave)
+                    }
                 }
                 .setNegativeButton("Anuluj") {dialog,_ ->
                     dialog.cancel()
@@ -36,9 +41,20 @@ class MainActivity : AppCompatActivity() {
         randomChapterButton.setOnClickListener{
             showToastForRandomChapter(chapterManager.randomChapterNumber())
         }
+
+        showNotCompleteChapterButton.setOnClickListener {
+            val intent = Intent(this,ArrayChapterActivity::class.java)
+            startActivity(intent)
+        }
+
+        showCompleteChapterButton.setOnClickListener {
+            val intent = Intent(this,ArrayChapterActivity::class.java)
+            intent.putExtra("isLearned","true")
+            startActivity(intent)
+        }
     }
 
-    private fun firstStart(){
+    private fun firstStart(chapterManager:ChapterManager){
         if (chapterManager.isAnyChaptersExists()){
             val alertDialog = AlertDialog.Builder(this)
             val editText = EditText(this)
@@ -54,6 +70,8 @@ class MainActivity : AppCompatActivity() {
                     dialog.cancel()
                 }
             alertDialog.show()
+        } else {
+            chapterManager.createArrays()
         }
     }
 
@@ -69,6 +87,7 @@ class MainActivity : AppCompatActivity() {
     private fun showToastForRandomChapter(chapter: String){
         Toast.makeText(this,"Wylosowany rozdział to: $chapter. Powodzenia ;)",Toast.LENGTH_SHORT).show()
     }
+
 }
 
 

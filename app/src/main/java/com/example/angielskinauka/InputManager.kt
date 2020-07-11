@@ -7,4 +7,8 @@ class InputManager {
     fun createIntFromInput(editText: EditText): Int {
         return editText.text.toString().toInt()
     }
+
+    fun checkEditTextForNull(editText: EditText):Boolean {
+        return editText.text.toString().isNotEmpty()
+    }
 }

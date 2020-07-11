@@ -1,4 +1,4 @@
-package com.example.angielskinauka
+package com.example.angielskinauka.data
 
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
@@ -21,7 +21,8 @@ object BasicComands {
     const val SQL_DELETE_TABLE = "DROP TABLE IF EXISTS ${TableInfo.TABLE_NAME}"
 }
 
-class DataBaseHelper(context: Context): SQLiteOpenHelper(context,TableInfo.TABLE_NAME,null,1) {
+class DataBaseHelper(context: Context): SQLiteOpenHelper(context,
+    TableInfo.TABLE_NAME,null,1) {
     override fun onCreate(db: SQLiteDatabase?) {
     db?.execSQL(BasicComands.SQL_CREATE_TABLE)
     }

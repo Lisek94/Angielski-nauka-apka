@@ -1,24 +1,36 @@
 package com.example.angielskinauka
 
 import android.content.Context
+import com.example.angielskinauka.data.DataBaseManager
 import kotlin.random.Random
 
 class ChapterManager(context: Context) {
-    private var dataBaseManager = DataBaseManager(context)
-    private var arrayChapterList = ArrayList<String>()
-    private var arrayLearnedList = ArrayList<String>()
-    private var chapter = Chapter()
+    companion object{
+        var arrayNotLearnedList = ArrayList<String>()
+        var arrayLearnedList = ArrayList<String>()
+    }
 
-    fun createArrayChapters(): ArrayList<String>{
+    private var dataBaseManager = DataBaseManager(context)
+
+    fun createArrays(){
+        var chapter: Chapter
         val dataSize = dataBaseManager.getDataSize()
-        for(i in 1..dataSize){
-            dataBaseManager.getChapter(i)
-            arrayChapterList.add(chapter.chapterName)
+        for(i in 0 until dataSize){
+            chapter = dataBaseManager.getChapter(i)
+            if(checkStatusChapters(chapter)){
+                arrayLearnedList.add(chapter.chapterName)
+            } else {
+                arrayNotLearnedList.add(chapter.chapterName)
+            }
         }
-        return arrayChapterList
+    }
+
+    private fun checkStatusChapters(chapter: Chapter):Boolean{
+        return chapter.isLearned == "true"
     }
 
     fun createDefaultChapters(chapterCount: Int):ChapterManagerStatus{
+        val chapter = Chapter()
         var status = ChapterManagerStatus.StatusAllSaveComplete
         if(chapterCount > 0 ){
             for (i in 1..chapterCount){
@@ -27,6 +39,7 @@ class ChapterManager(context: Context) {
                     status = ChapterManagerStatus.StatusDataException
                 }
             }
+            createArrays()
         } else {
             status = ChapterManagerStatus.StatusNotDataToSave
         }
@@ -36,27 +49,33 @@ class ChapterManager(context: Context) {
         return dataBaseManager.isDataEmpty()
     }
 
-    fun addOneChapter(chapterNumber: String): ChapterManagerStatus {
-        return if (chapterNumber.isNotEmpty() ) {
-            chapter.chapterName = chapterNumber
-                if (dataBaseManager.saveChapter(chapter)){
+    fun addOneChapter(chapterInput: String): ChapterManagerStatus {
+        val chapter = Chapter()
+        chapter.chapterName = chapterInput
+        return if (dataBaseManager.saveChapter(chapter)){
+            createArrays()
                     ChapterManagerStatus.StatusSingleSaveComplete
                 } else {
                     ChapterManagerStatus.StatusDataException
                 }
-            } else {
-                ChapterManagerStatus.StatusNotDataToSave
-            }
     }
 
     fun randomChapterNumber():String {
-        val dataSize = arrayLearnedList.size
+        val dataSize = arrayNotLearnedList.size
         val randomInt = Random.nextInt(0,dataSize)
-        return arrayLearnedList.get(randomInt).toString()
+        updateChapterStatus(randomInt)
+        return arrayNotLearnedList[randomInt]
     }
 
+    private fun updateChapterStatus(numberChapter: Int){
+        val chapter = Chapter()
+        chapter.chapterName = numberChapter.toString()
+        chapter.isLearned = "true"
+        dataBaseManager.editChapter(chapter)
+    }
 }
-enum class ChapterManagerStatus{
+
+enum class ChapterManagerStatus {
     StatusSingleSaveComplete,
     StatusAllSaveComplete,
     StatusNotDataToSave,

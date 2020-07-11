@@ -1,12 +1,14 @@
-package com.example.angielskinauka
+package com.example.angielskinauka.data
 
 import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteException
+import com.example.angielskinauka.Chapter
 
 class DataBaseManager(context: Context) {
-    private var dBHelper:DataBaseHelper = DataBaseHelper(context)
+    private var dBHelper: DataBaseHelper =
+        DataBaseHelper(context)
     private var db:SQLiteDatabase = dBHelper.writableDatabase
 
     fun isDataEmpty():Boolean{
@@ -23,16 +25,17 @@ class DataBaseManager(context: Context) {
         return result
     }
 
-    fun getChapter(cursorPosition:Int):Chapter{
+    fun getChapter(cursorPosition:Int): Chapter {
         val chapter = Chapter()
         val cursor = db.query(TableInfo.TABLE_NAME,null,null,null,null,null,null)
-        cursor.moveToPosition(cursorPosition+1)
+        cursor.moveToPosition(cursorPosition)
         chapter.chapterName = cursor.getString(1)
         chapter.isLearned = cursor.getString(2)
+        cursor.close()
         return chapter
     }
 
-    fun saveChapter(chapter:Chapter):Boolean{
+    fun saveChapter(chapter: Chapter):Boolean{
         val value = ContentValues()
         return try {
             value.put("title", chapter.chapterName )
@@ -42,5 +45,9 @@ class DataBaseManager(context: Context) {
         } catch (e:SQLiteException){
             false
         }
+    }
+
+    fun editChapter(chapter: Chapter){
+        //TODO
     }
 }
