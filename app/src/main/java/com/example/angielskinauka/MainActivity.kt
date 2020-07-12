@@ -31,6 +31,7 @@ class MainActivity : AppCompatActivity() {
                     } else {
                         showToastForSaveChapter(ChapterManagerStatus.StatusNotDataToSave)
                     }
+                    chapterManager.createArrays()
                 }
                 .setNegativeButton("Anuluj") {dialog,_ ->
                     dialog.cancel()

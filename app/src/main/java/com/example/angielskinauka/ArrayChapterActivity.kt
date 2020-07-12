@@ -1,17 +1,19 @@
 package com.example.angielskinauka
 
-import android.annotation.SuppressLint
+import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import kotlinx.android.synthetic.main.activity_chapters.*
 
 class ArrayChapterActivity : AppCompatActivity() {
 
-    @SuppressLint("SetTextI18n")
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_chapters)
+    }
     override fun onResume() {
         super.onResume()
-        super.onStart()
-        setContentView(R.layout.activity_chapters)
         val isLearned= intent.hasExtra("isLearned")
 
         if(isLearned){

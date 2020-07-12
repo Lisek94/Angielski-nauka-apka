@@ -5,6 +5,7 @@ import com.example.angielskinauka.data.DataBaseManager
 import kotlin.random.Random
 
 class ChapterManager(context: Context) {
+
     companion object{
         var arrayNotLearnedList = ArrayList<String>()
         var arrayLearnedList = ArrayList<String>()
@@ -12,9 +13,20 @@ class ChapterManager(context: Context) {
 
     private var dataBaseManager = DataBaseManager(context)
 
+    private fun checkStatusChapters(chapter: Chapter):Boolean{
+        return chapter.isLearned == "true"
+    }
+
+    private fun clearArrays(){
+        arrayNotLearnedList.clear()
+        arrayLearnedList.clear()
+    }
+
     fun createArrays(){
         var chapter: Chapter
         val dataSize = dataBaseManager.getDataSize()
+        clearArrays()
+
         for(i in 0 until dataSize){
             chapter = dataBaseManager.getChapter(i)
             if(checkStatusChapters(chapter)){
@@ -23,10 +35,6 @@ class ChapterManager(context: Context) {
                 arrayNotLearnedList.add(chapter.chapterName)
             }
         }
-    }
-
-    private fun checkStatusChapters(chapter: Chapter):Boolean{
-        return chapter.isLearned == "true"
     }
 
     fun createDefaultChapters(chapterCount: Int):ChapterManagerStatus{
@@ -53,7 +61,6 @@ class ChapterManager(context: Context) {
         val chapter = Chapter()
         chapter.chapterName = chapterInput
         return if (dataBaseManager.saveChapter(chapter)){
-            createArrays()
                     ChapterManagerStatus.StatusSingleSaveComplete
                 } else {
                     ChapterManagerStatus.StatusDataException

@@ -4,6 +4,7 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteException
+import android.provider.BaseColumns
 import com.example.angielskinauka.Chapter
 
 class DataBaseManager(context: Context) {
@@ -48,6 +49,8 @@ class DataBaseManager(context: Context) {
     }
 
     fun editChapter(chapter: Chapter){
-        //TODO
+        val value = ContentValues()
+        value.put("isLearned",chapter.isLearned)
+        db.update(TableInfo.TABLE_NAME,value,TableInfo.TABLE_COLUMN_TITLE + "=?", arrayOf(chapter.chapterName))
     }
 }
