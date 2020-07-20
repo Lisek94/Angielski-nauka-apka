@@ -70,7 +70,7 @@ class ChapterManager(context: Context) {
     fun randomChapterNumber():String {
         val dataSize = arrayNotLearnedList.size
         val randomInt = Random.nextInt(0,dataSize)
-        updateChapterStatus(randomInt)
+        updateChapterStatus(arrayNotLearnedList[randomInt].toInt())
         return arrayNotLearnedList[randomInt]
     }
 

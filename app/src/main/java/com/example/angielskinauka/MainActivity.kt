@@ -41,6 +41,7 @@ class MainActivity : AppCompatActivity() {
 
         randomChapterButton.setOnClickListener{
             showToastForRandomChapter(chapterManager.randomChapterNumber())
+            chapterManager.createArrays()
         }
 
         showNotCompleteChapterButton.setOnClickListener {
