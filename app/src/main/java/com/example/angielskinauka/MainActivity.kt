@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity() {
                     } else {
                         showToastForSaveChapter(ChapterManagerStatus.StatusNotDataToSave)
                     }
-                    chapterManager.createArrays()
+                    updateData(chapterManager)
                 }
                 .setNegativeButton("Anuluj") {dialog,_ ->
                     dialog.cancel()
@@ -40,8 +40,12 @@ class MainActivity : AppCompatActivity() {
         }
 
         randomChapterButton.setOnClickListener{
-            showToastForRandomChapter(chapterManager.randomChapterNumber())
-            chapterManager.createArrays()
+            if(chapterManager.checkListLearnedSize()){
+                showToastForRandomChapter(chapterManager.randomChapterNumber())
+                updateData(chapterManager)
+            } else {
+                Toast.makeText(this,"Brak rozdziału do wylosowania",Toast.LENGTH_SHORT).show()
+            }
         }
 
         showNotCompleteChapterButton.setOnClickListener {
@@ -72,9 +76,14 @@ class MainActivity : AppCompatActivity() {
                     dialog.cancel()
                 }
             alertDialog.show()
-        } else {
-            chapterManager.createArrays()
         }
+        updateData(chapterManager)
+
+    }
+
+    private fun updateData(chapterManager: ChapterManager){
+        chapterManager.createArrays()
+        ProgressBarManager().setProgressBar(progressBar,percentTextView)
     }
 
     private fun showToastForSaveChapter(status: ChapterManagerStatus){

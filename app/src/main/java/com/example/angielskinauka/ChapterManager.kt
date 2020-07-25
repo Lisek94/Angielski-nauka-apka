@@ -47,7 +47,6 @@ class ChapterManager(context: Context) {
                     status = ChapterManagerStatus.StatusDataException
                 }
             }
-            createArrays()
         } else {
             status = ChapterManagerStatus.StatusNotDataToSave
         }
@@ -74,6 +73,11 @@ class ChapterManager(context: Context) {
         return arrayNotLearnedList[randomInt]
     }
 
+    fun checkListLearnedSize():Boolean{
+        val dataSize = arrayNotLearnedList.size
+        return dataSize > 0
+    }
+
     private fun updateChapterStatus(numberChapter: Int){
         val chapter = Chapter()
         chapter.chapterName = numberChapter.toString()
@@ -86,5 +90,5 @@ enum class ChapterManagerStatus {
     StatusSingleSaveComplete,
     StatusAllSaveComplete,
     StatusNotDataToSave,
-    StatusDataException,
+    StatusDataException
 }
