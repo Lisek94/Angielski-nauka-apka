@@ -71,6 +71,7 @@ class MainActivity : AppCompatActivity() {
             alertDialog.setMessage("Twoja lista rozdziałów jest pusta. Wpisz liczbe rozdziałów do nauczenia")
                 .setPositiveButton("Dodaj"){_,_ ->
                     showToastForSaveChapter(chapterManager.createDefaultChapters(inputManager.createIntFromInput(editText)))
+                    updateData(chapterManager)
                 }
                 .setNegativeButton("Później") {dialog, _ ->
                     dialog.cancel()
@@ -78,7 +79,6 @@ class MainActivity : AppCompatActivity() {
             alertDialog.show()
         }
         updateData(chapterManager)
-
     }
 
     private fun updateData(chapterManager: ChapterManager){
@@ -92,6 +92,7 @@ class MainActivity : AppCompatActivity() {
             ChapterManagerStatus.StatusAllSaveComplete -> Toast.makeText(applicationContext,"Rozdziały zostały dodane",Toast.LENGTH_SHORT).show()
             ChapterManagerStatus.StatusDataException -> Toast.makeText(applicationContext,"Brak dostępu do bazy danych", Toast.LENGTH_SHORT).show()
             ChapterManagerStatus.StatusNotDataToSave -> Toast.makeText(applicationContext,"Brak rozdziału do zapisania", Toast.LENGTH_LONG).show()
+            ChapterManagerStatus.StatusChapterExists -> Toast.makeText(applicationContext,"Rozdział już istnieje w bazie danych", Toast.LENGTH_LONG).show()
         }
     }
 

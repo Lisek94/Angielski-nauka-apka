@@ -52,18 +52,46 @@ class ChapterManager(context: Context) {
         }
         return status
     }
+
     fun isAnyChaptersExists():Boolean{
         return dataBaseManager.isDataEmpty()
+    }
+
+    private fun checkIsChapterIsRepeatForArrayNotLearned(chapterNumber:String):Boolean{
+        var bool = true
+        for(i in 0 until arrayNotLearnedList.size){
+            if(arrayNotLearnedList[i] == chapterNumber) {
+                bool = false
+                break
+            }
+        }
+        return bool
+    }
+
+    private fun checkIsChapterIsRepeatForArrayLearned(chapterNumber:String):Boolean{
+        var bool = true
+        for(i in 0 until arrayLearnedList.size){
+            if(arrayLearnedList[i] == chapterNumber){
+                bool = false
+                break
+            }
+        }
+        return bool
     }
 
     fun addOneChapter(chapterInput: String): ChapterManagerStatus {
         val chapter = Chapter()
         chapter.chapterName = chapterInput
-        return if (dataBaseManager.saveChapter(chapter)){
-                    ChapterManagerStatus.StatusSingleSaveComplete
-                } else {
-                    ChapterManagerStatus.StatusDataException
-                }
+        return if(checkIsChapterIsRepeatForArrayLearned(chapterInput)
+            &&checkIsChapterIsRepeatForArrayNotLearned(chapterInput)) {
+            if (dataBaseManager.saveChapter(chapter)){
+                ChapterManagerStatus.StatusSingleSaveComplete
+            } else {
+                ChapterManagerStatus.StatusDataException
+            }
+        } else {
+            ChapterManagerStatus.StatusChapterExists
+        }
     }
 
     fun randomChapterNumber():String {
@@ -90,5 +118,6 @@ enum class ChapterManagerStatus {
     StatusSingleSaveComplete,
     StatusAllSaveComplete,
     StatusNotDataToSave,
-    StatusDataException
+    StatusDataException,
+    StatusChapterExists
 }
