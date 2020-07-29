@@ -7,8 +7,7 @@ import android.database.sqlite.SQLiteException
 import com.example.angielskinauka.Chapter
 
 class DataBaseManager(context: Context) {
-    private var dBHelper: DataBaseHelper =
-        DataBaseHelper(context)
+    private var dBHelper: DataBaseHelper = DataBaseHelper(context)
     private var db:SQLiteDatabase = dBHelper.writableDatabase
 
     fun isDataEmpty():Boolean{
@@ -52,5 +51,10 @@ class DataBaseManager(context: Context) {
         val where = chapter.chapterName
         value.put("isLearned",chapter.isLearned)
         db.update(TableInfo.TABLE_NAME,value,TableInfo.TABLE_COLUMN_TITLE + "=?", arrayOf(where))
+    }
+
+    fun deleteChapter(chapter: Chapter){
+        val where = chapter.chapterName
+        db.delete(TableInfo.TABLE_NAME,TableInfo.TABLE_COLUMN_TITLE + "=?", arrayOf(where))
     }
 }

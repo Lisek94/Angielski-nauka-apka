@@ -112,6 +112,12 @@ class ChapterManager(context: Context) {
         chapter.isLearned = "true"
         dataBaseManager.editChapter(chapter)
     }
+
+    fun removeChapter(chapterName: String){
+        val chapter = Chapter()
+        chapter.chapterName = chapterName
+        dataBaseManager.deleteChapter(chapter)
+    }
 }
 
 enum class ChapterManagerStatus {
@@ -119,5 +125,5 @@ enum class ChapterManagerStatus {
     StatusAllSaveComplete,
     StatusNotDataToSave,
     StatusDataException,
-    StatusChapterExists
+    StatusChapterExists,
 }

@@ -4,6 +4,8 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.InputType
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -58,6 +60,24 @@ class MainActivity : AppCompatActivity() {
             intent.putExtra("isLearned","true")
             startActivity(intent)
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.random_chapter,menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val chapterManager = ChapterManager(this)
+        if(item.itemId == R.id.randomAB){
+            if(chapterManager.checkListLearnedSize()){
+                showToastForRandomChapter(chapterManager.randomChapterNumber())
+                updateData(chapterManager)
+            } else {
+                Toast.makeText(this,"Brak rozdziału do wylosowania",Toast.LENGTH_SHORT).show()
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     private fun firstStart(chapterManager:ChapterManager){
