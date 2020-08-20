@@ -1,11 +1,13 @@
 package com.example.angielskinauka
 
 import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.InputType
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -127,6 +129,11 @@ class MainActivity : AppCompatActivity() {
     private fun showToastForRandomChapter(chapter: String){
         Toast.makeText(this,"Wylosowany rozdział to: $chapter. Powodzenia ;)",Toast.LENGTH_SHORT).show()
     }
+
+    fun onClickAddress(view: View) {
+        val address = "https://github.com/Lisek94/Angielski-nauka-apka"
+        val startAddress = Intent(Intent.ACTION_VIEW, Uri.parse(address))
+        startActivity(startAddress)}
 
 }
 

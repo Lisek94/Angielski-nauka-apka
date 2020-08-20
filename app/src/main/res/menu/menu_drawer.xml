@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showiIn="navigationView">
+
+    <group>
+        <item android:id="@+id/menuLearnedChapters"
+            android:title="Nauczone rozdziały"
+            android:icon="@drawable/ic_folder" />
+        <item android:id="@+id/menuNotLearnedChapters"
+            android:title="Rozdziały do powtórzenia"
+            android:icon="@drawable/ic_folder" />
+    </group>
+</menu>
