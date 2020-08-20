@@ -6,4 +6,6 @@
     <string name="show_complete_chapters">Pokaż powtórzone rozdziały</string>
     <string name="show_not_complete_chapters">Pokaż rozdziały do powtórzenia</string>
     <string name="chapters_complete">Ukończone rozdziały</string>
+    <string name="navigation_drawer_open">Open</string>
+    <string name="navigation_drawer_close">Close</string>
 </resources>

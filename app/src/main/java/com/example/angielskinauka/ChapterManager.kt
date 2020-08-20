@@ -126,5 +126,4 @@ enum class ChapterManagerStatus {
     StatusNotDataToSave,
     StatusDataException,
     StatusChapterExists,
-    StatusChapterDelete
 }

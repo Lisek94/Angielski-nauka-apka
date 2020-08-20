@@ -4,5 +4,5 @@
 
     <item android:title="Losuj"
         android:id="@+id/randomAB"
-        app:showAsAction="ifRoom"/>
+        app:showAsAction="collapseActionView"/>
 </menu>

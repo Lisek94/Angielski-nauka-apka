@@ -2,6 +2,10 @@ package com.example.angielskinauka
 
 import android.app.AlertDialog
 import android.content.Context
+import android.content.res.ColorStateList
+import android.graphics.Color
+import android.graphics.Color.GREEN
+import android.graphics.Color.green
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -30,8 +34,11 @@ class CardViewAdapter(private val context: Context, private val isLearned:Boolea
         val numberChapter = holder.view.numberChapterTextView
         if(isLearned){
             numberChapter.text = ChapterManager.arrayLearnedList[position]
+            numberChapter.setBackgroundColor(Color.GREEN)
         } else {
             numberChapter.text = ChapterManager.arrayNotLearnedList[position]
+            numberChapter.setBackgroundColor(Color.RED)
+            numberChapter.setTextColor(Color.WHITE)
         }
 
         numberChapter.setOnClickListener {
