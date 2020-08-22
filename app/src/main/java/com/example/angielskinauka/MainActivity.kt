@@ -13,21 +13,21 @@ import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
+import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
     private val inputManager = InputManager()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val chapterManager = ChapterManager(this)
-        val toolbar = findViewById<Toolbar>(R.id.toolbar)
-        setSupportActionBar(toolbar)
-        val toggle = ActionBarDrawerToggle(MainActivity(),drawerLayout,toolbar,R.string.navigation_drawer_open,R.string.navigation_drawer_close)
-        drawerLayout.addDrawerListener(toggle)
-        toggle.syncState()
 
+        val navigationView = findViewById<NavigationView>(R.id.navigationView)
+        navigationView.setNavigationItemSelectedListener(this)
+
+        createToolbar()
         firstStart(chapterManager)
 
         addChapterButton.setOnClickListener {
@@ -58,17 +58,6 @@ class MainActivity : AppCompatActivity() {
             } else {
                 Toast.makeText(this,"Brak rozdziału do wylosowania",Toast.LENGTH_SHORT).show()
             }
-        }
-
-        showNotCompleteChapterButton.setOnClickListener {
-            val intent = Intent(this,ArrayChapterActivity::class.java)
-            startActivity(intent)
-        }
-
-        showCompleteChapterButton.setOnClickListener {
-            val intent = Intent(this,ArrayChapterActivity::class.java)
-            intent.putExtra("isLearned","true")
-            startActivity(intent)
         }
     }
 
@@ -130,10 +119,34 @@ class MainActivity : AppCompatActivity() {
         Toast.makeText(this,"Wylosowany rozdział to: $chapter. Powodzenia ;)",Toast.LENGTH_SHORT).show()
     }
 
-    fun onClickAddress(view: View) {
+    fun onClickAddress(view:View) {
         val address = "https://github.com/Lisek94/Angielski-nauka-apka"
         val startAddress = Intent(Intent.ACTION_VIEW, Uri.parse(address))
-        startActivity(startAddress)}
+        startActivity(startAddress)
+    }
+
+    private fun createToolbar(){
+        val toolbar = findViewById<Toolbar>(R.id.toolbar)
+        setSupportActionBar(toolbar)
+        val toggle = ActionBarDrawerToggle(MainActivity(),drawerLayout,toolbar,R.string.navigation_drawer_open,R.string.navigation_drawer_close)
+        drawerLayout.addDrawerListener(toggle)
+        toggle.syncState()
+    }
+
+    override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        when(item.itemId){
+            R.id.menuNotLearnedChapters -> {
+            val intent = Intent(this,ArrayChapterActivity::class.java)
+            startActivity(intent)
+            }
+            R.id.menuLearnedChapters -> {
+                val intent = Intent(this,ArrayChapterActivity::class.java)
+                intent.putExtra("isLearned","true")
+                startActivity(intent)
+            }
+        }
+        return true
+    }
 
 }
 
