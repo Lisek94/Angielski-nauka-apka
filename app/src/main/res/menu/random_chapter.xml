@@ -2,7 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item android:title="Losuj"
+    <item android:title="@string/add_chapter"
         android:id="@+id/randomAB"
-        app:showAsAction="collapseActionView"/>
+        app:showAsAction="ifRoom"/>
 </menu>

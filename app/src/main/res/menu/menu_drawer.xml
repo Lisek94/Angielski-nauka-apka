@@ -5,10 +5,10 @@
 
     <group>
         <item android:id="@+id/menuLearnedChapters"
-            android:title="Nauczone rozdziały"
+            android:title="@string/show_complete_chapters"
             android:icon="@drawable/ic_folder" />
         <item android:id="@+id/menuNotLearnedChapters"
-            android:title="Rozdziały do powtórzenia"
+            android:title="@string/show_not_complete_chapters"
             android:icon="@drawable/ic_folder" />
     </group>
 </menu>

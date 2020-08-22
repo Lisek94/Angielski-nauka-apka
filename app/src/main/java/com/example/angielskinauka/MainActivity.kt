@@ -30,34 +30,18 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         createToolbar()
         firstStart(chapterManager)
 
-        addChapterButton.setOnClickListener {
-            val builder = AlertDialog.Builder(this)
-            val editText = EditText(this)
-            editText.inputType = InputType.TYPE_CLASS_NUMBER
-
-            builder.setView(editText)
-            builder.setMessage("Wpisz numer rozdziału")
-                .setPositiveButton("Zapisz") { _, _ ->
-                    if (inputManager.checkEditTextForNull(editText)){
-                        showToastForSaveChapter(chapterManager.addOneChapter(editText.text.toString()))
-                    } else {
-                        showToastForSaveChapter(ChapterManagerStatus.StatusNotDataToSave)
-                    }
-                    updateData(chapterManager)
-                }
-                .setNegativeButton("Anuluj") {dialog,_ ->
-                    dialog.cancel()
-                }
-            builder.show()
-        }
-
         randomChapterButton.setOnClickListener{
             if(chapterManager.checkListLearnedSize()){
-                showToastForRandomChapter(chapterManager.randomChapterNumber())
-                updateData(chapterManager)
+                val number = chapterManager.randomChapterNumber()
+                resultTextView.text = number
+                resultTextView.visibility = View.VISIBLE
             } else {
                 Toast.makeText(this,"Brak rozdziału do wylosowania",Toast.LENGTH_SHORT).show()
             }
+        }
+
+        resultTextView.setOnClickListener {
+            onClickResultsTextView(chapterManager,resultTextView.text.toString())
         }
     }
 
@@ -68,14 +52,24 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val chapterManager = ChapterManager(this)
-        if(item.itemId == R.id.randomAB){
-            if(chapterManager.checkListLearnedSize()){
-                showToastForRandomChapter(chapterManager.randomChapterNumber())
+        val builder = AlertDialog.Builder(this)
+        val editText = EditText(this)
+        editText.inputType = InputType.TYPE_CLASS_NUMBER
+
+        builder.setView(editText)
+        builder.setMessage("Wpisz numer rozdziału")
+            .setPositiveButton("Zapisz") { _, _ ->
+                if (inputManager.checkEditTextForNull(editText)){
+                    showToastForSaveChapter(chapterManager.addOneChapter(editText.text.toString()))
+                } else {
+                    showToastForSaveChapter(ChapterManagerStatus.StatusNotDataToSave)
+                }
                 updateData(chapterManager)
-            } else {
-                Toast.makeText(this,"Brak rozdziału do wylosowania",Toast.LENGTH_SHORT).show()
             }
-        }
+            .setNegativeButton("Anuluj") {dialog,_ ->
+                dialog.cancel()
+            }
+        builder.show()
         return super.onOptionsItemSelected(item)
     }
 
@@ -100,6 +94,24 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         updateData(chapterManager)
     }
 
+    private fun onClickResultsTextView(chapterManager: ChapterManager, number: String) {
+            val alertDialog = AlertDialog.Builder(this)
+
+            alertDialog.setTitle("Potwierdzenie")
+            alertDialog.setMessage("Czy napewno nauczyłeś się tego rozdziału?")
+                .setPositiveButton("Tak"){_,_ ->
+                    chapterManager.updateChapterStatus(number.toInt())
+                    updateData(chapterManager)
+                    resultTextView.visibility = View.INVISIBLE
+                    Toast.makeText(this,"Nauczyłeś się dziś nowego rozdziału! Brawo!!",Toast.LENGTH_SHORT).show()
+                }
+                .setNegativeButton("Jeszcze nie") {dialog, _ ->
+                    dialog.cancel()
+                }
+            alertDialog.show()
+
+    }
+
     private fun updateData(chapterManager: ChapterManager){
         chapterManager.createArrays()
         ProgressBarManager().setProgressBar(progressBar,percentTextView)
@@ -113,10 +125,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             ChapterManagerStatus.StatusNotDataToSave -> Toast.makeText(applicationContext,"Brak rozdziału do zapisania", Toast.LENGTH_LONG).show()
             ChapterManagerStatus.StatusChapterExists -> Toast.makeText(applicationContext,"Rozdział już istnieje w bazie danych", Toast.LENGTH_LONG).show()
         }
-    }
-
-    private fun showToastForRandomChapter(chapter: String){
-        Toast.makeText(this,"Wylosowany rozdział to: $chapter. Powodzenia ;)",Toast.LENGTH_SHORT).show()
     }
 
     fun onClickAddress(view:View) {

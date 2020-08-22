@@ -97,7 +97,6 @@ class ChapterManager(context: Context) {
     fun randomChapterNumber():String {
         val dataSize = arrayNotLearnedList.size
         val randomInt = Random.nextInt(0,dataSize)
-        updateChapterStatus(arrayNotLearnedList[randomInt].toInt())
         return arrayNotLearnedList[randomInt]
     }
 
@@ -106,7 +105,7 @@ class ChapterManager(context: Context) {
         return dataSize > 0
     }
 
-    private fun updateChapterStatus(numberChapter: Int){
+    fun updateChapterStatus(numberChapter: Int){
         val chapter = Chapter()
         chapter.chapterName = numberChapter.toString()
         chapter.isLearned = "true"

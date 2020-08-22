@@ -2,12 +2,13 @@
     <string name="app_name">Angielski nauka</string>
     <string name="icon_UK">iconUK</string>
     <string name="random_chapter">Wylosuj rozdział do powtórki</string>
-    <string name="add_chapter">Dodaj rozdział do powtórki</string>
-    <string name="show_complete_chapters">Pokaż powtórzone rozdziały</string>
-    <string name="show_not_complete_chapters">Pokaż rozdziały do powtórzenia</string>
+    <string name="add_chapter">Dodaj rozdział</string>
+    <string name="show_complete_chapters">Nauczone rozdziały</string>
+    <string name="show_not_complete_chapters">Rozdziały do powtórzenia</string>
     <string name="chapters_complete">Ukończone rozdziały</string>
     <string name="navigation_drawer_open">Open</string>
     <string name="navigation_drawer_close">Close</string>
     <string name="address_github">github.com/Lisek94/Angielski-nauka-apka</string>
     <string name="message_navigation_view">Miłej nauki</string>
+    <string name="tittle_random_chapter">Wylosowany rozdział na dziś</string>
 </resources>
